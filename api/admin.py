@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Category, Subcategory, Dish, Operator, Restaurant, Order
+
+admin.site.register(Category)
+admin.site.register(Subcategory)
+admin.site.register(Dish)
+admin.site.register(Operator)
+admin.site.register(Restaurant)
+admin.site.register(Order)
