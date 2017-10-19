@@ -5,45 +5,45 @@ class Category(models.Model):
     name = models.CharField(null=True, max_length=100)
 
     def __str__(self):
-        return str()
+        return str(self.name)
 
 
 class Subcategory(models.Model):
     name = models.CharField(null=True, max_length=100)
-    category = models.ForiegnKey(Category)
+    category = models.ForeignKey(Category)
 
     def __str__(self):
-        return str()
+        return str(self.name)
 
 
 class Dish(models.Model):
     name = models.CharField(null=True, max_length=100)
-    subcategory = models.ForiegnKey(Subcategory)
+    subcategory = models.ForeignKey(Subcategory)
     
     def __str__(self):
-        return str()
+        return str(self.name)
 
 
 class Operator(models.Model):
     name = models.CharField(null=True, max_length=100)
     
     def __str__(self):
-        return str()
+        return str(self.name)
 
 
 class Restaurant(models.Model):
     name = models.CharField(null=True, max_length=100)
     
     def __str__(self):
-        return str()
+        return str(self.name)
 
 
 class Order(models.Model):
     dish = models.ManyToManyField(Dish)
-    operator = models.ForiegnKey(Operator)
-    restaurant = models.ForiegnKey(Restaurant)
+    operator = models.ForeignKey(Operator)
+    restaurant = models.ForeignKey(Restaurant)
 
     def __str__(self):
-        return str()
+        return str(self.restaurant) + ' ' + str(self.operator)
 
 
