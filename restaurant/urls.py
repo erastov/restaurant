@@ -13,9 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from api.resources import OrderResource, DishResource, CategoryResource, SubcategoryResource
+
+order_resource = OrderResource()
+dish_resource = DishResource()
+category_resource = CategoryResource()
+subcategory_resource = SubcategoryResource()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include(order_resource.urls)),
+    url(r'^api/', include(category_resource.urls)),
+    url(r'^api/', include(subcategory_resource.urls)),
+    url(r'^api/', include(dish_resource.urls)),
 ]
