@@ -5,6 +5,9 @@ from functools import reduce
 class Category(models.Model):
     name = models.CharField(null=True, max_length=100)
 
+    class Meta:
+        verbose_name_plural = 'categories'
+
     def __str__(self):
         return str(self.name)
 
@@ -12,6 +15,9 @@ class Category(models.Model):
 class Subcategory(models.Model):
     name = models.CharField(null=True, max_length=100)
     category = models.ForeignKey(Category)
+
+    class Meta:
+        verbose_name_plural = 'subcategories'
 
     def __str__(self):
         return str(self.name)
@@ -21,9 +27,12 @@ class Dish(models.Model):
     name = models.CharField(null=True, max_length=100)
     subcategory = models.ForeignKey(Subcategory)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        verbose_name_plural = 'dishes'
     
     def __str__(self):
-        return str(self.name)
+        return '{0}, {1}'.format(self.name, self.price)
 
 
 class Operator(models.Model):
