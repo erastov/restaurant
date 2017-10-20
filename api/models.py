@@ -1,4 +1,5 @@
 from django.db import models
+from functools import reduce
 
 
 class Category(models.Model):
@@ -19,6 +20,7 @@ class Subcategory(models.Model):
 class Dish(models.Model):
     name = models.CharField(null=True, max_length=100)
     subcategory = models.ForeignKey(Subcategory)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     
     def __str__(self):
         return str(self.name)
@@ -39,11 +41,28 @@ class Restaurant(models.Model):
 
 
 class Order(models.Model):
-    dish = models.ManyToManyField(Dish)
+    STATUS_CHOICES = (
+        ('НПЛ', 'Не оплачен'),
+        ('ОПЛ', 'Оплачен'),
+        ('ОТМ', 'Отменен'),
+    )
+
+    dishes = models.ManyToManyField(Dish)
     operator = models.ForeignKey(Operator)
     restaurant = models.ForeignKey(Restaurant)
+    time_of_creation = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def cost(self):
+        return reduce(lambda accumulation, dish: accumulation + dish.price, self.dishes.all(), 0)
+
+    status = models.CharField(
+        max_length=3,
+        choices=STATUS_CHOICES,
+        default='НПЛ',
+    )
 
     def __str__(self):
-        return str(self.restaurant) + ' ' + str(self.operator)
+        return '{0}, {1}, {2}'.format(self.time_of_creation, self.restaurant, self.operator)
 
 
